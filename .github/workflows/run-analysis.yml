@@ -30,7 +30,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main
+          mkdir -p /tmp/results
+          cp -r outputs data README.md /tmp/results/
+          git fetch origin main
+          git reset --hard origin/main
+          cp -r /tmp/results/outputs /tmp/results/data /tmp/results/README.md .
           git add -A outputs data README.md
           if ! git diff --staged --quiet; then
             git commit -m "Refresh data and results [skip ci]"
